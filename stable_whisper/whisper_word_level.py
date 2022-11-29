@@ -242,10 +242,11 @@ def transcribe_word_level(
     all_segments = []
     prompt_reset_since = 0
 
-    initial_prompt = decode_options.pop("initial_prompt", None) or []
-    if initial_prompt:
-        initial_prompt = tokenizer.encode(" " + initial_prompt.strip())
-        all_tokens.extend(initial_prompt)
+    initial_prompts = decode_options.pop("initial_prompt", None) or []
+    if initial_prompts:
+        for prompt in initial_prompts:
+            initial_prompt = tokenizer.encode(" " + prompt.strip())
+            all_tokens.extend(initial_prompt)
 
     def _to_list(x: (Tensor, None)):
         if x is None:
